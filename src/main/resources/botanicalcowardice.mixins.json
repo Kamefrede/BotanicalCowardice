@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "xyz.kamefrede.botanicalcowardice.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "botanicalcowardice.refmap.json",
+  "mixins": [
+    "MixinSubTileEntropinnyum"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

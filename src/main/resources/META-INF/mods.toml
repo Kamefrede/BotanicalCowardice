@@ -1,0 +1,26 @@
+modLoader = "javafml"
+loaderVersion = "[31,)"
+issueTrackerURL = "https://github.com/Kamefrede/Botanical Cowardice/issues"
+
+license = "MIT"
+[[mods]]
+modId = "botanicalcowardice"
+version = "${file.jarVersion}"
+displayName = "Botanical Cowardice"
+credits = "williewillus for having a bad take on this"
+authors = "Kamefrede"
+description = '''
+Removes tnt ethicality from the Entropinnyum.
+'''
+[[dependencies.botanicalcowardice]]
+modId = "forge"
+mandatory = true
+versionRange = "[31,)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.botanicalcowardice]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.2,)"
+ordering = "NONE"
+side = "BOTH"

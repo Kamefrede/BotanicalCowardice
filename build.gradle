@@ -1,0 +1,101 @@
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+        maven {url='https://dist.creeper.host/Sponge/maven'}
+
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+apply plugin: 'idea'
+apply plugin: 'org.spongepowered.mixin'
+
+
+
+version = "${mod_version}-${mc_version}"
+group = "xyz.kamefrede.${modid}"
+archivesBaseName = "${modid}"
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+
+mixin {
+    add sourceSets.main, "${modid}.refmap.json"
+}
+
+minecraft {
+    mappings channel: "snapshot", version: "${mapping}-${mcp_version}"
+
+    runs {
+        client {
+            property 'mixin.env.disableRefMap', 'true'
+            workingDirectory project.file('run')
+            arg "-mixin.config="+archivesBaseName+".mixins.json"
+
+
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                botanicalcowardice {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            property 'mixin.env.disableRefMap', 'true'
+            workingDirectory project.file('run')
+            arg "-mixin.config="+archivesBaseName+".mixins.json"
+
+
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                botanicalcowardice {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+repositories{
+    maven { url = "https://maven.theillusivec4.top/" } // curios
+    maven { url= "https://maven.blamejared.com/" }
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
+    compileOnly fg.deobf("vazkii.botania:Botania:1.16.4-411")
+    runtimeOnly fg.deobf("vazkii.botania:Botania:1.16.4-411")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-48:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-48")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.4-4.0.3.0:api")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.4-4.0.3.0")
+   annotationProcessor 'org.spongepowered:mixin:0.8.1:processor'
+}
+
+// Example for how to get properties into the manifest for reading by the runtime..
+jar {
+    manifest {
+        attributes([
+                "Specification-Title": "${modid}",
+                "Specification-Vendor": "Kamefrede",
+                "Specification-Version": "1", // We are version 1 of ourselves
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor" :"Kamefrede",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs": "${modid}.mixins.json"
+        ])
+    }
+}
+
